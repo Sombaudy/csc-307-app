@@ -74,6 +74,19 @@ const addUser = (user) => {
     res.send();
 });
 
+// const deleteUser = (user) =>
+//     users["users_list"].find((user) => user["id"] === id);
+
+//   app.delete("/users/:id", (req, res) => {
+//     const id = req.params["id"]; //or req.params.id
+//     let result = deleteUser(id);
+//     if (result === undefined) {
+//       res.status(400).send("Resource not found.");
+//     } else {
+//       res.send(result);
+//     }
+// });
+
 app.use(express.json());
 
 app.get("/", (req, res) => {
