@@ -6,19 +6,47 @@ import Form from "./Form";
 function MyApp() {
     const [characters, setCharacters] = useState([]);
     
-    function removeOneCharacter(index) {
-        const updated = characters.filter((character, i) => {
-          return i !== index;
+    function removeOneCharacter(index, id) {
+        deleteUser(id)
+            .then((response) => {
+                if (response.status === 204) {
+                    const updated = characters.filter((character, i) => i !== index);
+                    setCharacters(updated);
+                } else if (response.stats === 404) {
+                    console.log("Resource not found.");
+                } else {
+                    console.log("Failed to delete user.");
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
+    function deleteUser(id) {
+        const promise = fetch(`http://localhost:8000/users/${id}`, {
+            method: 'DELETE',
         });
-        setCharacters(updated);
+      
+        return promise;
     }
 
     function updateList(person) { 
         postUser(person)
-          .then(() => setCharacters([...characters, person]))
+          .then((response) => {
+            if(response.status === 201) {
+                return response.json();
+            } else {
+                console.log("Failed to insert user.");
+                throw new Error("Failed to insert user");
+            }
+          })
+          .then((json) => {
+            setCharacters([...characters, json]);
+          })
           .catch((error) => {
             console.log(error);
-        })
+        });
     }
 
     function fetchUsers() {
