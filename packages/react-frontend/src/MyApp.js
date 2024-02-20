@@ -12,7 +12,7 @@ function MyApp() {
                 if (response.status === 204) {
                     const updated = characters.filter((character, i) => i !== index);
                     setCharacters(updated);
-                } else if (response.stats === 404) {
+                } else if (response.status === 404) {
                     console.log("Resource not found.");
                 } else {
                     console.log("Failed to delete user.");
